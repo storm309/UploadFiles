@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .upload-box { border: 2px dashed #ccc; padding: 20px; text-align: center; margin: 20px 0; }
+        #result { margin-top: 20px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>File Upload</h1>
+    <div class="upload-box">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="fileInput">Choose a file:</label>
+            <input type="file" name="file" id="fileInput" required>
+            <button type="submit">Upload File</button>
+        </form>
+    </div>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('file', document.getElementById('fileInput').files[0]);
+            
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                document.getElementById('result').innerHTML = `
+                    <p>File uploaded successfully!</p>
+                    <p>Download link: <a href="${data.downloadLink}" target="_blank">${data.downloadLink}</a></p>
+                `;
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p>Error uploading file</p>';
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
