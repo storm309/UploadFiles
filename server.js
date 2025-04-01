@@ -73,7 +73,7 @@ app.get('/download/:file', (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6969;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
   console.log(`Upload endpoint: POST http://localhost:${PORT}/api/upload`);
